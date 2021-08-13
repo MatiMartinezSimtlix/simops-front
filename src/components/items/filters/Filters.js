@@ -40,9 +40,6 @@ function Filters() {
         onChange={handleChange}
         name="model"
       />
-      {selectValues.type}
-      {selectValues.model}
-      {selectValues.brand}
     </SelectContainer>
   );
 }
