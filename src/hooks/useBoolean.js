@@ -1,26 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
 const useBoolean = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
-    function handleOpen() {
-        setIsOpen(true);
-    }
+  function handleOpen() {
+    setIsOpen(true);
+  }
 
-    function handleClose() {
-        setIsOpen(false)
-    }
+  function handleClose() {
+    setIsOpen(false);
+  }
 
-    function handleToggle() {
-        setIsOpen(!isOpen);
-    }
+  function handleToggle() {
+    setIsOpen(!isOpen);
+  }
 
-    return {
-        isOpen,
-        handleOpen,
-        handleClose,
-        handleToggle
-    }
-}
+  return {
+    isOpen,
+    handleOpen,
+    handleClose,
+    handleToggle,
+  };
+};
 
-export default useBoolean
+export default useBoolean;

@@ -11,8 +11,8 @@ const Layout = ({ children }) => {
   return (
     <>
       <Navegation handleToggle={handleToggle} />
-      <Aside />
-      <Container>{children}</Container>
+      <Aside isOpen={isOpen} />
+      <Container $isOpen={isOpen}>{children}</Container>
     </>
   );
 };
@@ -20,7 +20,11 @@ const Layout = ({ children }) => {
 export default Layout;
 
 const Container = styled.main`
-  padding-left: 200px;
-  padding-top: 70px;
+  position: relative;
+  left: ${(p) => (p.$isOpen ? "200px" : "70px")};
+  top: 70px;
+  padding: 1rem;
   width: 100%;
+
+  transition: all 1s;
 `;

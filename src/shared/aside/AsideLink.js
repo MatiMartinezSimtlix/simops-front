@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 
 import Text from "../../components/common/Text";
 
-const AsideLink = ({ label, icon, to }) => {
+const AsideLink = ({ label, icon, to, isOpen }) => {
   return (
-    <Container to={to}>
+    <Container to={to} $isOpen={isOpen}>
       {icon}
-      <Text>{label}</Text>
+      {isOpen && <Text>{label}</Text>}
     </Container>
   );
 };
