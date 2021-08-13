@@ -26,5 +26,5 @@ const Container = styled.main`
   padding: 1rem;
   width: 100%;
 
-  transition: all 1s;
+  transition: all 0.2s;
 `;
