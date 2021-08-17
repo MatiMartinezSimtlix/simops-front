@@ -5,6 +5,8 @@ import ItemSelect from "./components/ItemSelect";
 import { Divider } from "@material-ui/core";
 import SearchWithIcon from "../../common/SearchWithIcon";
 
+import NewItem from "../new-item/NewItem";
+
 function Filters() {
   const [selectValues, setSelectValues] = useState({
     type: "",
@@ -26,6 +28,7 @@ function Filters() {
 
   return (
     <Container>
+      <NewItem />
       <SearchWithIcon value={search} onChange={handleChangeSearch} />
       <ItemSelect
         label="Model"

@@ -12,6 +12,7 @@ export const itemReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
+        error: null,
       };
     case types.GET_ITEMS_SUCCESS:
       return {
