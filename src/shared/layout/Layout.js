@@ -6,7 +6,7 @@ import Aside from "../aside/Aside";
 import Navegation from "../navegation/Navegation";
 
 const Layout = ({ children }) => {
-  const { isOpen, handleToggle } = useBoolean();
+  const { isOpen, handleToggle } = useBoolean({ initialState: true });
 
   return (
     <>

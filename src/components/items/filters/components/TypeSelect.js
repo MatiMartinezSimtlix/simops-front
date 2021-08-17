@@ -1,7 +1,9 @@
 import styled from "styled-components";
-import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
 
-function ItemSelect(props) {
+import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
+import { itemEnums } from "../../../../utils/enums";
+
+function TypeSelect(props) {
   return (
     <FormControlCustom>
       <InputLabel id="demo-simple-select-label">{props.label}</InputLabel>
@@ -12,15 +14,16 @@ function ItemSelect(props) {
         onChange={props.onChange}
         name={props.name}
       >
-        <MenuItem value={10}>Ten</MenuItem>
-        <MenuItem value={20}>Twenty</MenuItem>
-        <MenuItem value={30}>Thirty</MenuItem>
+        <MenuItem value="">ALL</MenuItem>
+        {itemEnums.map((item) => (
+          <MenuItem value={item.id}>{item.id}</MenuItem>
+        ))}
       </Select>
     </FormControlCustom>
   );
 }
 
-export default ItemSelect;
+export default TypeSelect;
 
 const FormControlCustom = styled(FormControl)`
   width: 125px;

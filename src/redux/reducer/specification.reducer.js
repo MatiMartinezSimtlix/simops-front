@@ -1,45 +1,46 @@
-import * as types from "../types/item.types";
+import * as types from "../types/specification.types";
 
 const initialState = {
-  items: null,
+  specifications: null,
   loading: false,
   error: null,
 };
 
-export const itemReducer = (state = initialState, action) => {
+export const specificationReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.GET_ITEMS_START:
+    // GET
+    case types.GET_SPECIFICATIONS_START:
       return {
         ...state,
         loading: true,
         error: null,
       };
-    case types.GET_ITEMS_SUCCESS:
+    case types.GET_SPECIFICATIONS_SUCCESS:
       return {
         ...state,
         loading: false,
-        items: action.payload,
+        specifications: action.payload,
       };
-    case types.GET_ITEMS_FAIL:
+    case types.GET_SPECIFICATIONS_FAIL:
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
-    case types.CREATE_ITEM_START:
+    // CREATE
+    case types.CREATE_SPECIFICATION_START:
       return {
         ...state,
         loading: true,
         error: null,
       };
-    case types.CREATE_ITEM_SUCCESS:
-      console.log(action.payload);
+    case types.CREATE_SPECIFICATION_SUCCESS:
       return {
         ...state,
         loading: false,
-        items: [...state.items, action.payload],
+        specifications: [...state.specifications, action.payload],
       };
-    case types.CREATE_ITEM_FAIL:
+    case types.CREATE_SPECIFICATION_FAIL:
       return {
         ...state,
         loading: false,

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-const useBoolean = () => {
-  const [isOpen, setIsOpen] = useState(true);
+const useBoolean = ({ initialState }) => {
+  const [isOpen, setIsOpen] = useState(initialState);
 
   function handleOpen() {
     setIsOpen(true);
