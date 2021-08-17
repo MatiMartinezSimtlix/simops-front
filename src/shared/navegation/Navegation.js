@@ -21,9 +21,10 @@ const Container = styled.header`
   align-items: center;
   padding: 0 1rem;
   height: 70px;
-  background-color: #F16431;
+  background-color: #f16431;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
+  z-index: 99;
 `;

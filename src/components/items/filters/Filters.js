@@ -1,7 +1,9 @@
-import { useState } from "react";
-import ItemSelect from "./components/ItemSelect";
+import React, { useState } from "react";
 import styled from "styled-components";
+
+import ItemSelect from "./components/ItemSelect";
 import { Divider } from "@material-ui/core";
+import SearchWithIcon from "../../common/SearchWithIcon";
 
 function Filters() {
   const [selectValues, setSelectValues] = useState({
@@ -9,22 +11,27 @@ function Filters() {
     model: "",
     brand: "",
   });
-  function handleChange(event) {
+  const [search, setSearch] = useState("");
+
+  function handleChange(e) {
     setSelectValues({
       ...selectValues,
-      [event.target.name]: event.target.value,
+      [e.target.name]: e.target.value,
     });
   }
 
-  console.log(selectValues);
+  function handleChangeSearch(e) {
+    setSearch(e.target.value);
+  }
 
   return (
-    <SelectContainer>
+    <Container>
+      <SearchWithIcon value={search} onChange={handleChangeSearch} />
       <ItemSelect
-        label="Type"
-        value={selectValues.type}
+        label="Model"
+        value={selectValues.model}
         onChange={handleChange}
-        name="type"
+        name="model"
       />
       <Divider orientation="vertical" flexItem />
       <ItemSelect
@@ -35,20 +42,20 @@ function Filters() {
       />
       <Divider orientation="vertical" flexItem />
       <ItemSelect
-        label="Model"
-        value={selectValues.model}
+        label="Type"
+        value={selectValues.type}
         onChange={handleChange}
-        name="model"
+        name="type"
       />
-    </SelectContainer>
+    </Container>
   );
 }
 
 export default Filters;
 
-const SelectContainer = styled.div`
+const Container = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   align-items: center;
-  column-gap: 1rem;
+  column-gap: 1.5rem;
 `;

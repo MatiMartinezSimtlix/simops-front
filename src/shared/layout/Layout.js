@@ -21,10 +21,8 @@ export default Layout;
 
 const Container = styled.main`
   position: relative;
-  left: ${(p) => (p.$isOpen ? "200px" : "70px")};
-  top: 70px;
-  padding: 1rem;
-  width: 100%;
-
+  padding: calc(1.5rem + 70px) 1.5rem 1.5rem;
+  padding-left: ${(p) =>
+    p.$isOpen ? "calc(200px + 1.5rem)" : "calc(70px + 1.5rem)"};
   transition: all 0.2s;
 `;

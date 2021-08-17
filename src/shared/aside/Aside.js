@@ -55,6 +55,7 @@ const Container = styled.aside`
     rgba(0, 0, 0, 0.1) 0px 2px 4px 0px,
     rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
   transition: all 0.2s;
+  z-index: 99;
 `;
 
 const Logo = styled.img`

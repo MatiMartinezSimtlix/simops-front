@@ -4,14 +4,14 @@ import styled from "styled-components";
 import { Typography } from "@material-ui/core";
 
 const Text = (props) => {
-  const { fontSize, fontWeight, textTransform, textColor } = props;
+  const { fontSize, fontWeight, texttransform, textcolor } = props;
 
   return (
     <CustomTypography
       fontSize={fontSize}
       fontWeight={fontWeight}
-      textTransform={textTransform}
-      textColor={textColor}
+      texttransform={texttransform}
+      textcolor={textcolor}
       {...props}
     >
       {props.children}
@@ -24,6 +24,6 @@ export default Text;
 const CustomTypography = styled(Typography)`
   font-size: ${(p) => p.fontSize};
   font-weight: ${(p) => p.fontWeight};
-  text-transform: ${(p) => p.textTransform};
-  color: ${(p) => p.color};
+  text-transform: ${(p) => p.texttransform};
+  color: ${(p) => p.textcolor};
 `;

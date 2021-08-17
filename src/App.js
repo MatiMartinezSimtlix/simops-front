@@ -1,10 +1,8 @@
-import { request, gql } from "graphql-request";
 import { BrowserRouter } from "react-router-dom";
 
 import ScrollToTop from "./utils/ScrollToTop";
 import Routes from "./Routes";
-import { StylesProvider } from "@material-ui/core";
-import { ThemeProvider } from "styled-components";
+import { StylesProvider, ThemeProvider } from "@material-ui/core";
 import { theme } from "./styles/theme";
 
 function App() {
