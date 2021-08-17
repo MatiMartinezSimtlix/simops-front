@@ -18,6 +18,7 @@ const NewSpecification = () => {
         color="primary"
         onClick={handleOpen}
         startIcon={<AddRounded />}
+        fullWidth
       >
         Create Specification
       </Button>

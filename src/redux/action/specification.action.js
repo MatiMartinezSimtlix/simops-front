@@ -33,3 +33,36 @@ export const fetchSpecifications = ({ query }) => {
       });
   };
 };
+
+const createSpecificationStart = () => {
+  return {
+    type: types.CREATE_SPECIFICATION_START,
+  };
+};
+
+const createSpecificationSuccess = (specification) => {
+  return {
+    type: types.CREATE_SPECIFICATION_SUCCESS,
+    payload: specification,
+  };
+};
+
+const createSpecificationFail = (error) => {
+  return {
+    type: types.CREATE_SPECIFICATION_FAIL,
+    payload: error,
+  };
+};
+
+export const createSpecification = ({ query }) => {
+  return async (dispatch) => {
+    dispatch(createSpecificationStart());
+    await request("http://localhost:3000/inventory/graphql?", query)
+      .then((response) => {
+        dispatch(createSpecificationSuccess(response.addspecification));
+      })
+      .catch((error) => {
+        dispatch(createSpecificationFail(error));
+      });
+  };
+};

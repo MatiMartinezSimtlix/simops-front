@@ -26,6 +26,25 @@ export const itemReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload,
       };
+    case types.CREATE_ITEM_START:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case types.CREATE_ITEM_SUCCESS:
+      console.log(action.payload);
+      return {
+        ...state,
+        loading: false,
+        items: [...state.items, action.payload],
+      };
+    case types.CREATE_ITEM_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
     default:
       return state;
   }

@@ -38,6 +38,7 @@ export const specificationReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        specifications: [...state.specifications, action.payload],
       };
     case types.CREATE_SPECIFICATION_FAIL:
       return {

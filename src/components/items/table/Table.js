@@ -68,8 +68,8 @@ export default function EnhancedTable({ items }) {
     setOrderBy(property);
   };
 
-  const handleClick = (event, name) => {
-    // Abrir modal al hacer click
+  const handleClick = (item) => {
+    console.log(item);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -108,7 +108,7 @@ export default function EnhancedTable({ items }) {
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, item.name)}
+                    onClick={(event) => handleClick(item)}
                     role="checkbox"
                     tabIndex={-1}
                     key={item.name}

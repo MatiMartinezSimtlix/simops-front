@@ -2,7 +2,7 @@ import { gql } from "graphql-request";
 
 export const getItems = gql`
   query {
-    items {
+    items(isDeleted: { operator: EQ, value: false }) {
       id
       type
       simtlixCode
@@ -24,3 +24,37 @@ export const getItems = gql`
     }
   }
 `;
+
+export function createItemQuery({ specification, type }) {
+  const query = gql`
+  mutation {
+    additem(input: {
+        specification:{
+          id: "${specification}"
+        }
+        type: ${type}
+    }){
+      id
+    type
+    simtlixCode
+    state
+    assignedCollaborator {
+      id
+    }
+    requestedDate
+    serialNumber
+    specification {
+      id
+      brand
+      model
+      technicalDetails
+    }
+ 		warranty
+    purchaseDate
+    supplier
+    }
+  }
+  `;
+
+  return query;
+}

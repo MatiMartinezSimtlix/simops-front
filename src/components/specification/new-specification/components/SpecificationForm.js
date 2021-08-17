@@ -5,8 +5,15 @@ import { Formik, Form } from "formik";
 import DefaultTextField from "../../../common/DefaultTextField";
 import { Button } from "@material-ui/core";
 import { specificationSchema } from "../../../../utils/validations";
+import { createSpecification } from "../../../../redux/action/specification.action";
+import { useDispatch, useSelector } from "react-redux";
+import { createSpecificationQuery } from "../../../../querys/specification.query";
+import WidthLoading from "../../../common/WidthLoading";
 
 const SpecificationForm = () => {
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.specificationReducer);
+
   const initialValues = {
     brand: "",
     model: "",
@@ -14,7 +21,7 @@ const SpecificationForm = () => {
   };
 
   function handleSubmit(values) {
-    console.log(values);
+    dispatch(createSpecification({ query: createSpecificationQuery(values) }));
   }
 
   return (
@@ -34,9 +41,13 @@ const SpecificationForm = () => {
             multiline
             rows={4}
           />
-          <Button variant="contained" color="primary" type="submit">
-            Create Specification
-          </Button>
+          {loading ? (
+            <WidthLoading />
+          ) : (
+            <Button variant="contained" color="primary" type="submit">
+              Create Specification
+            </Button>
+          )}
         </Container>
       )}
     </Formik>
