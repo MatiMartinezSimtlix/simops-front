@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Table from "../components/collaborator/table/Table";
@@ -11,6 +11,23 @@ import FetchLoading from "../components/common/FetchLoading";
 const Index = () => {
   const dispatch = useDispatch();
   const { collaborators, loading } = useSelector((state) => state.collaboratorReducer);
+  const [active, setActive] = useState(null);
+  const [search, setSearch] = useState("");
+
+  function handleChangeActive(e) {
+    setActive(e.target.value);
+  }
+
+  function handleChangeSearch(e) {
+    setSearch(e.target.value);
+  }
+
+  function filterItems() {
+    if (active === null) {
+      return collaborators;
+    }
+    return collaborators.filter((collaborator) => collaborator.active === active);
+  }
 
   useEffect(() => {
     if (!collaborators) {
@@ -24,8 +41,13 @@ const Index = () => {
 
   return (
     <Container>
-      <Filters />
-      <Table collaborators={collaborators} />
+      <Filters
+        active={active}
+        handleChangeActive={handleChangeActive}
+        search={search}
+        handleChangeSearch={handleChangeSearch}
+      />
+      <Table collaborators={filterItems()} />
     </Container>
   );
 };

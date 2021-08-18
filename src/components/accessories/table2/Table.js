@@ -25,13 +25,6 @@ export default function DataTable({ accessories }) {
       headerName: "Quantity",
     },
     {
-      id: "collaborator",
-      width: 150,
-      editable: true,
-      disablePadding: false,
-      headerName: "Collaborator",
-    },
-    {
       id: "brand",
       width: 150,
       editable: true,

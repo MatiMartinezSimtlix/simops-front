@@ -49,7 +49,6 @@ const Accessories = () => {
 
   const dispatch = useDispatch();
   const { accessories, loading } = useSelector((state) => state.accessoryReducer);
-
   const [type, setType] = useState("");
 
   useEffect(() => {
@@ -60,11 +59,24 @@ const Accessories = () => {
 
   function filterAccesories() {
     if (type === "") {
-      return accessories;
+      return accessories.accessories;
     }
-    return accessories.filter((accessory) => accessory.type === type);
+    return accessories.accessories.filter((accessory) => accessory.type === type);
   }
 
+  function getTotals() {
+    let total = 0;
+    let assigned = 0;
+    accessories.accessories.forEach(accessory => {
+      total += accessory.quantity;
+      assigned += accessory.collaborators.length;
+    });
+    return {
+      total: total,
+      assigned: assigned,
+      available: total - assigned,
+    };
+  }
 
   if (!accessories || loading) {
     return <FetchLoading />;
@@ -73,8 +85,8 @@ const Accessories = () => {
   return (
     <Container>
       <AnalyticsContainer>
-        <Analytic type={"Accessories available"} count={9} total={100} />
-        <Analytic type={"Accessories assigned"} count={9} total={100} />
+        <Analytic type={"Accessories available"} count={getTotals().available} total={getTotals().total} />
+        <Analytic type={"Accessories assigned"} count={getTotals().assigned} total={getTotals().total} />
       </AnalyticsContainer>
 
       <Table accessories={filterAccesories()} />

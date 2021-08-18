@@ -1,5 +1,4 @@
 import {
-  Checkbox,
   TableCell,
   TableHead,
   TableRow,
@@ -9,11 +8,8 @@ import {
 const EnhancedTableHead = (props) => {
   const {
     classes,
-    onSelectAllClick,
     order,
     orderBy,
-    numSelected,
-    rowCount,
     onRequestSort,
   } = props;
   const createSortHandler = (property) => (event) => {
@@ -23,14 +19,6 @@ const EnhancedTableHead = (props) => {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{ "aria-label": "select all desserts" }}
-          />
-        </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -63,7 +51,7 @@ const headCells = [
   {
     id: "collaboratorSimOpsId",
     numeric: false,
-    disablePadding: true,
+    disablePadding: false,
     label: "Collaborator",
   },
   {
@@ -73,14 +61,3 @@ const headCells = [
     label: "Active",
   }
 ];
-
-/*
-  EnhancedTableHead.propTypes = {
-    classes: PropTypes.object.isRequired,
-    numSelected: PropTypes.number.isRequired,
-    onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(["asc", "desc"]).isRequired,
-    orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired,
-  };*/

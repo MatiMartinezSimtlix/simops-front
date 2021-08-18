@@ -54,6 +54,10 @@ export const getFullCollaborators = gql`
           model
           technicalDetails
         }
+        assignedCollaborator {
+          id
+          collaboratorSimOpsId
+        }
         supplier
       }
     }
