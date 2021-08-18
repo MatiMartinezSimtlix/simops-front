@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import Table from "../components/items/table/Table";
-import Filters from "../components/items/filters/Filters";
+import Filters from "../components/common/filters/Filters";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchItems } from "../redux/action/item.action";
 import { getItems } from "../querys/item.query";

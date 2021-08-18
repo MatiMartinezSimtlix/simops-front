@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
 
-function ItemSelect(props) {
+function SelectField(props) {
   return (
     <FormControlCustom>
       <InputLabel id="demo-simple-select-label">{props.label}</InputLabel>
@@ -20,7 +20,7 @@ function ItemSelect(props) {
   );
 }
 
-export default ItemSelect;
+export default SelectField;
 
 const FormControlCustom = styled(FormControl)`
   width: 125px;

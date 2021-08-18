@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import ItemSelect from "./components/ItemSelect";
+import SelectField from "./components/SelectField";
 import { Divider } from "@material-ui/core";
 import SearchWithIcon from "../../common/SearchWithIcon";
 
@@ -27,21 +27,21 @@ function Filters() {
   return (
     <Container>
       <SearchWithIcon value={search} onChange={handleChangeSearch} />
-      <ItemSelect
+      <SelectField
         label="Model"
         value={selectValues.model}
         onChange={handleChange}
         name="model"
       />
       <Divider orientation="vertical" flexItem />
-      <ItemSelect
+      <SelectField
         label="Brand"
         value={selectValues.brand}
         onChange={handleChange}
         name="brand"
       />
       <Divider orientation="vertical" flexItem />
-      <ItemSelect
+      <SelectField
         label="Type"
         value={selectValues.type}
         onChange={handleChange}
