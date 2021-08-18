@@ -1,19 +1,15 @@
-import { Modal } from '@material-ui/core'
+import { Modal, Typography } from '@material-ui/core'
 import React  from 'react';
 import styled from 'styled-components';
-import { default as ItemsTable } from '../../items/table/Table';
-import { default as AccessoriesTable } from '../../accessories/table/Table';
+import Table from '../../collaborator/table/Table';
 
-const Info = ({ isOpen, handleClose, collaborator }) => {
-
+const Info = ({ isOpen, handleClose, accessory }) => {
   return (
     <>
       <Modal open={isOpen} onClose={handleClose}>
         <Container>
-          Items
-          <ItemsTable items={collaborator?.collaboratorItems} />
-          Accessories
-          <AccessoriesTable accessories={collaborator?.collaboratorAccessories.map(relation => relation.accessory)} />
+          <Title>Collaborators</Title>
+          <Table collaborators={accessory?.collaborators.map(relation => relation.collaborator)} />
         </Container>
       </Modal>
     </>
@@ -33,6 +29,12 @@ min-width: 600px;
 outline: none;
 max-height: 700px;
 overflow: scroll;
+`;
+
+const Title = styled.span`
+font-size: 16px;
+font-weight: 700;
+line-height: 2;
 `;
 
 export default Info;

@@ -1,10 +1,11 @@
 import { gql } from "graphql-request";
 
 export const getAccessories = gql`
-  query{
+  query {
     accessories(isDeleted: {operator: EQ, value: false}) {
       id
       quantity
+      type
       specification {
         brand
         model
@@ -12,6 +13,11 @@ export const getAccessories = gql`
       }
       collaborators {
         id
+        collaborator {
+          id
+          active
+          collaboratorSimOpsId
+        }
       }
     }
   }

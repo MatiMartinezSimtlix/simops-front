@@ -5,32 +5,14 @@ import CollaboratorSelect from "./components/CollaboratorSelect";
 import { Divider } from "@material-ui/core";
 import SearchWithIcon from "../../common/SearchWithIcon";
 
-function Filters() {
-  const [selectValues, setSelectValues] = useState({
-    type: "",
-    model: "",
-    brand: "",
-  });
-  const [search, setSearch] = useState("");
-
-  function handleChange(e) {
-    setSelectValues({
-      ...selectValues,
-      [e.target.name]: e.target.value,
-    });
-  }
-
-  function handleChangeSearch(e) {
-    setSearch(e.target.value);
-  }
-
+function Filters({active, handleChangeActive, search, handleChangeSearch}) {
   return (
     <Container>
       <SearchWithIcon value={search} onChange={handleChangeSearch} />
       <CollaboratorSelect
         label="Active"
-        value={selectValues.active}
-        onChange={handleChange}
+        value={active}
+        onChange={handleChangeActive}
         name="active"
       />
       <Divider orientation="vertical" flexItem />

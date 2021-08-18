@@ -10,7 +10,8 @@ import TableRow from "@material-ui/core/TableRow";
 
 import EnhancedTableHead from "./components/EnhancedTableHead";
 import styled from "styled-components";
-import MoreSpecification from "./components/MoreSpecification";
+import Info from "../info/Info";
+import useBoolean from "../../../hooks/useBoolean";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -56,6 +57,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EnhancedTable({ accessories }) {
+  const { isOpen, handleOpen, handleClose } = useBoolean({initialState: false});
+  const [accessory, setAccessory] = useState(null);
   const classes = useStyles();
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("type");
@@ -69,7 +72,8 @@ export default function EnhancedTable({ accessories }) {
   };
 
   const handleClick = (accessory) => {
-    console.log(accessory);
+    setAccessory(accessory);
+    handleOpen();
   };
 
   const handleChangePage = (event, newPage) => {
@@ -85,63 +89,63 @@ export default function EnhancedTable({ accessories }) {
     rowsPerPage - Math.min(rowsPerPage, accessories.length - page * rowsPerPage);
 
   return (
-    <Container>
-      <TableContainer>
-        <Table
-          className={classes.table}
-          aria-labelledby="tableTitle"
-          size="medium"
-          aria-label="enhanced table"
-        >
-          <EnhancedTableHead
-            classes={classes}
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={handleRequestSort}
-          />
-          <TableBody>
-            {stableSort(accessories, getComparator(order, orderBy))
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((accessory, index) => {
-                const labelId = `enhanced-table-checkbox-${index}`;
+    <>
+      <Container>
+        <TableContainer>
+          <Table
+            className={classes.table}
+            aria-labelledby="tableTitle"
+            size="medium"
+            aria-label="enhanced table"
+          >
+            <EnhancedTableHead
+              classes={classes}
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={handleRequestSort}
+            />
+            <TableBody>
+              {stableSort(accessories, getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((accessory, index) => {
+                  const labelId = `enhanced-table-checkbox-${index}`;
 
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(accessory)}
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={accessory.id}
-                  >
-                    <TableCell component="th" id={labelId} scope="row">
-                      {accessory.type}
-                    </TableCell>
-                    <TableCell>{accessory.quantityn}</TableCell>
-                    <TableCell>{accessory.collaborators}</TableCell>
-                    <TableCell>
-                      <MoreSpecification specification={accessory.specification} />
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={accessories.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Container>
+                  return (
+                    <TableRow
+                      hover
+                      onClick={(event) => handleClick(accessory)}
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={accessory.id}
+                    >
+                      <TableCell>{accessory.type}</TableCell>
+                      <TableCell>{accessory.quantity}</TableCell>
+                      <TableCell>{accessory.specification?.brand ? accessory.specification.brand : "-"}</TableCell>
+                      <TableCell>{accessory.specification?.model ? accessory.specification.model : "-"}</TableCell>
+                      <TableCell>{accessory.specification?.technicalDetails ? accessory.specification.technicalDetails : "-"}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 53 * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={accessories.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Container>
+      {accessory?.collaborators ? <Info isOpen={isOpen} handleClose={handleClose} accessory={accessory} /> : null}
+    </>
   );
 }
 

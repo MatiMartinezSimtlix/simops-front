@@ -45,47 +45,34 @@ export default EnhancedTableHead;
 
 const headCells = [
   {
-    id: "id",
-    width: 150,
-    editable: false,
-    headerName: "ID",
-  },
-  {
     id: "type",
     width: 150,
     editable: true,
-    headerName: "Type",
+    label: "Type",
   },
   {
     id: "quantity",
     width: 150,
     editable: true,
     disablePadding: false,
-    headerName: "Quantity",
-  },
-  {
-    id: "collaborator",
-    width: 150,
-    editable: true,
-    disablePadding: false,
-    headerName: "Collaborator",
+    label: "Quantity",
   },
   {
     id: "brand",
     width: 150,
     editable: true,
-    headerName: "Brand",
+    label: "Brand",
   },
   {
     id: "model",
     width: 150,
     editable: true,
-    headerName: "model",
+    label: "model",
   },
   {
     id: "technicalDetails",
     width: 200,
     editable: true,
-    headerName: "Technical Details",
+    label: "Technical Details",
   }
 ];
