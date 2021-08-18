@@ -5,30 +5,26 @@ import { Form, Formik } from "formik";
 import DefaultTextField from "../../common/DefaultTextField";
 import WidthLoading from "../../common/WidthLoading";
 import { Button } from "@material-ui/core";
-import { toAvailableSchema } from "../../../utils/validations";
 import { useDispatch, useSelector } from "react-redux";
 import { changeState } from "../../../redux/action/item.action";
 import { customItemQuery } from "../../../querys/itemState.query";
+import { toBrokenSchema } from "../../../utils/validations";
 
-const ToAvailable = ({ currentItem, handleClose }) => {
+const ToBroken = ({ currentItem, mutation, handleClose }) => {
   const dispatch = useDispatch();
   const { loadingChange } = useSelector((state) => state.itemReducer);
 
   const initialValues = {
-    simtlixCode: "",
-    serialNumber: "",
-    purchaseDate: "",
+    comments: "",
   };
 
   function handleSubmit(values) {
     dispatch(
       changeState({
         query: customItemQuery({
-          mutation: "COMING_to_AVAILABLE_item",
+          mutation: mutation,
           id: currentItem.id,
-          simtlixCode: values.simtlixCode,
-          serialNumber: values.serialNumber,
-          purchaseDate: values.purchaseDate,
+          comments: values.comments,
         }),
       })
     );
@@ -39,30 +35,22 @@ const ToAvailable = ({ currentItem, handleClose }) => {
     <Formik
       initialValues={initialValues}
       onSubmit={handleSubmit}
-      validationSchema={toAvailableSchema}
+      validationSchema={toBrokenSchema}
     >
       {() => (
         <Container>
           <DefaultTextField
-            name="simtlixCode"
+            name="comments"
             type="text"
-            label="simTLiXCode"
-          />
-          <DefaultTextField
-            name="serialNumber"
-            type="text"
-            label="SerialNumber"
-          />
-          <DefaultTextField
-            name="purchaseDate"
-            type="text"
-            label="PurchaseDate (YYYY/MM/DD)"
+            label="Comments"
+            multiline
+            rows={4}
           />
           {loadingChange ? (
             <WidthLoading />
           ) : (
             <Button variant="contained" color="primary" type="submit">
-              Assign Item
+              To Broken Item
             </Button>
           )}
         </Container>
@@ -71,7 +59,7 @@ const ToAvailable = ({ currentItem, handleClose }) => {
   );
 };
 
-export default ToAvailable;
+export default ToBroken;
 
 const Container = styled(Form)`
   display: flex;

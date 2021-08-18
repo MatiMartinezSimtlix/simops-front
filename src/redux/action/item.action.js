@@ -26,7 +26,6 @@ export const fetchItems = ({ query }) => {
     dispatch(getItemsStart());
     await request("http://localhost:3000/inventory/graphql?", query)
       .then((response) => {
-        console.log(response);
         dispatch(getItemsSuccess(response.items));
       })
       .catch((error) => {
@@ -92,7 +91,7 @@ export const changeState = ({ query }) => {
     dispatch(changeStateStart());
     await request("http://localhost:3000/inventory/graphql?", query)
       .then((response) => {
-        console.log(response);
+        console.log("respuesta", response);
         if (response.COMING_to_AVAILABLE_item) {
           dispatch(changeStateSuccess(response.COMING_to_AVAILABLE_item));
         }

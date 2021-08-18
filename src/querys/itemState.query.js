@@ -10,6 +10,7 @@ export function customItemQuery({
   serialNumber,
   requestedDate,
   purchaseDate,
+  assignedCollaboratorId,
 }) {
   const query = gql`
     mutation {
@@ -20,8 +21,15 @@ export function customItemQuery({
           ${isPartOfKit ? `isPartOfKit: "${isPartOfKit}"` : ""}
           ${comments ? `comments: "${comments}"` : ""}
           ${serialNumber ? `serialNumber: "${serialNumber}"` : ""}
-          ${requestedDate ? `requestedDate: ${requestedDate}` : ""}
+          ${requestedDate ? `requestedDate: "${requestedDate}"` : ""}
           ${purchaseDate ? `purchaseDate: "${purchaseDate}"` : ""}
+          ${
+            assignedCollaboratorId
+              ? `assignedCollaborator: {
+            id: "${assignedCollaboratorId}"
+          }`
+              : ""
+          }
         }){
           id
           type

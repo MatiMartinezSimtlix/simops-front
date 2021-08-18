@@ -16,7 +16,9 @@ function TypeSelect(props) {
       >
         <MenuItem value="">ALL</MenuItem>
         {itemEnums.map((item) => (
-          <MenuItem value={item.id}>{item.id}</MenuItem>
+          <MenuItem value={item.id} key={item.id}>
+            {item.id}
+          </MenuItem>
         ))}
       </Select>
     </FormControlCustom>

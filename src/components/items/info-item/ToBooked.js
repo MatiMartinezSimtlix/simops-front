@@ -2,33 +2,24 @@ import React from "react";
 import styled from "styled-components";
 
 import { Form, Formik } from "formik";
-import DefaultTextField from "../../common/DefaultTextField";
 import WidthLoading from "../../common/WidthLoading";
 import { Button } from "@material-ui/core";
-import { toAvailableSchema } from "../../../utils/validations";
 import { useDispatch, useSelector } from "react-redux";
 import { changeState } from "../../../redux/action/item.action";
 import { customItemQuery } from "../../../querys/itemState.query";
 
-const ToAvailable = ({ currentItem, handleClose }) => {
+const ToBooked = ({ currentItem, handleClose }) => {
   const dispatch = useDispatch();
   const { loadingChange } = useSelector((state) => state.itemReducer);
 
-  const initialValues = {
-    simtlixCode: "",
-    serialNumber: "",
-    purchaseDate: "",
-  };
+  const initialValues = {};
 
   function handleSubmit(values) {
     dispatch(
       changeState({
         query: customItemQuery({
-          mutation: "COMING_to_AVAILABLE_item",
+          mutation: "AVAILABLE_to_BOOKED_item",
           id: currentItem.id,
-          simtlixCode: values.simtlixCode,
-          serialNumber: values.serialNumber,
-          purchaseDate: values.purchaseDate,
         }),
       })
     );
@@ -36,33 +27,14 @@ const ToAvailable = ({ currentItem, handleClose }) => {
   }
 
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={handleSubmit}
-      validationSchema={toAvailableSchema}
-    >
+    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {() => (
         <Container>
-          <DefaultTextField
-            name="simtlixCode"
-            type="text"
-            label="simTLiXCode"
-          />
-          <DefaultTextField
-            name="serialNumber"
-            type="text"
-            label="SerialNumber"
-          />
-          <DefaultTextField
-            name="purchaseDate"
-            type="text"
-            label="PurchaseDate (YYYY/MM/DD)"
-          />
           {loadingChange ? (
             <WidthLoading />
           ) : (
             <Button variant="contained" color="primary" type="submit">
-              Assign Item
+              To Booked Item
             </Button>
           )}
         </Container>
@@ -71,7 +43,7 @@ const ToAvailable = ({ currentItem, handleClose }) => {
   );
 };
 
-export default ToAvailable;
+export default ToBooked;
 
 const Container = styled(Form)`
   display: flex;

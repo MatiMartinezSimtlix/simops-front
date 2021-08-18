@@ -5,6 +5,9 @@ import { Modal } from "@material-ui/core";
 import ToAvailable from "./ToAvailable";
 import CustomAccordion from "./CustomAccordion";
 import Text from "../../common/Text";
+import ToBroken from "./ToBroken";
+import ToBooked from "./ToBooked";
+import ToAssign from "./ToAssign";
 
 const InfoItem = ({ isOpen, handleClose, currentItem }) => {
   return (
@@ -16,9 +19,26 @@ const InfoItem = ({ isOpen, handleClose, currentItem }) => {
           </Text>
         </TextWrapper>
         {currentItem.state === "COMING" && (
-          <CustomAccordion title="Available Item">
-            <ToAvailable currentItem={currentItem} />
+          <CustomAccordion title="To Available Item">
+            <ToAvailable currentItem={currentItem} handleClose={handleClose} />
           </CustomAccordion>
+        )}
+        {currentItem.state === "AVAILABLE" && (
+          <>
+            <CustomAccordion title="To Broken Item">
+              <ToBroken
+                currentItem={currentItem}
+                mutation="AVAILABLE_to_BROKEN_item"
+                handleClose={handleClose}
+              />
+            </CustomAccordion>
+            <CustomAccordion title="To Booked Item">
+              <ToBooked currentItem={currentItem} handleClose={handleClose} />
+            </CustomAccordion>
+            <CustomAccordion title="To Assigned Item">
+              <ToAssign currentItem={currentItem} handleClose={handleClose} />
+            </CustomAccordion>
+          </>
         )}
       </Container>
     </Modal>

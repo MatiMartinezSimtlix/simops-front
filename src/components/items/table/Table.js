@@ -133,7 +133,9 @@ export default function EnhancedTable({ items }) {
                           {item.state}
                         </CustomText>
                       </TableCell>
-                      <TableCell>{item.assignedCollaborator || "-"}</TableCell>
+                      <TableCell>
+                        {item?.assignedCollaborator?.id || "-"}
+                      </TableCell>
                       <TableCell>{item.requestedDate}</TableCell>
                       <TableCell align="right">
                         {item.serialNumber === "empty"
