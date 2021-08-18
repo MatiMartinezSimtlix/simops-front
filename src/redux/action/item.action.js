@@ -25,7 +25,10 @@ export const fetchItems = ({ query }) => {
   return async (dispatch) => {
     dispatch(getItemsStart());
     await request("http://localhost:3000/inventory/graphql?", query)
-      .then((response) => dispatch(getItemsSuccess(response.items)))
+      .then((response) => {
+        console.log(response);
+        dispatch(getItemsSuccess(response.items));
+      })
       .catch((error) => {
         dispatch(getItemsFail(error));
       });
@@ -59,6 +62,72 @@ export const createItem = ({ query }) => {
       .then((response) => dispatch(createItemSuccess(response.additem)))
       .catch((error) => {
         dispatch(createItemFail(error));
+      });
+  };
+};
+
+const changeStateStart = () => {
+  return {
+    type: types.CHANGE_STATE_START,
+  };
+};
+
+const changeStateSuccess = (item) => {
+  return {
+    type: types.CHANGE_STATE_SUCCESS,
+    payload: item,
+  };
+};
+
+const changeStateFail = (error) => {
+  return {
+    type: types.CHANGE_STATE_FAIL,
+    payload: error,
+  };
+};
+
+export const changeState = ({ query }) => {
+  console.log(query);
+  return async (dispatch) => {
+    dispatch(changeStateStart());
+    await request("http://localhost:3000/inventory/graphql?", query)
+      .then((response) => {
+        console.log(response);
+        if (response.COMING_to_AVAILABLE_item) {
+          dispatch(changeStateSuccess(response.COMING_to_AVAILABLE_item));
+        }
+        if (response.AVAILABLE_to_NOT_ASSIGNABLE_item) {
+          dispatch(
+            changeStateSuccess(response.AVAILABLE_to_NOT_ASSIGNABLE_item)
+          );
+        }
+        if (response.AVAILABLE_to_BROKEN_item) {
+          dispatch(changeStateSuccess(response.AVAILABLE_to_BROKEN_item));
+        }
+        if (response.AVAILABLE_to_BOOKED_item) {
+          dispatch(changeStateSuccess(response.AVAILABLE_to_BOOKED_item));
+        }
+        if (response.AVAILABLE_to_ASSIGNED_item) {
+          dispatch(changeStateSuccess(response.AVAILABLE_to_ASSIGNED_item));
+        }
+        if (response.BOOKED_to_ASSIGNED_item) {
+          dispatch(changeStateSuccess(response.BOOKED_to_ASSIGNED_item));
+        }
+        if (response.ASSIGNED_to_AVAILABLE_item) {
+          dispatch(changeStateSuccess(response.ASSIGNED_to_AVAILABLE_item));
+        }
+        if (response.ASSIGNED_to_BROKEN_item) {
+          dispatch(changeStateSuccess(response.ASSIGNED_to_BROKEN_item));
+        }
+        if (response.BROKEN_to_AVAILABLE_item) {
+          dispatch(changeStateSuccess(response.BROKEN_to_AVAILABLE_item));
+        }
+        if (response.BROKEN_to_NOT_ASSIGNABLE_item) {
+          dispatch(changeStateSuccess(response.BROKEN_to_NOT_ASSIGNABLE_item));
+        }
+      })
+      .catch((error) => {
+        dispatch(changeStateFail(error));
       });
   };
 };
