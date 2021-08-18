@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchItems } from "../redux/action/item.action";
 import { getItems } from "../querys/item.query";
 import FetchLoading from "../components/common/FetchLoading";
-import { FunctionsRounded } from "@material-ui/icons";
 
 const Items = () => {
   const dispatch = useDispatch();

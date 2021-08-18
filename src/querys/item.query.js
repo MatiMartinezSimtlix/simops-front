@@ -29,29 +29,20 @@ export function createItemQuery({ specification, type }) {
   const query = gql`
   mutation {
     additem(input: {
-        specification:{
-          id: "${specification}"
-        }
-        type: ${type}
+      specification:{
+        id: "${specification}"
+      }
+      type: ${type}
     }){
       id
-    type
-    simtlixCode
-    state
-    assignedCollaborator {
-      id
-    }
-    requestedDate
-    serialNumber
-    specification {
-      id
-      brand
-      model
-      technicalDetails
-    }
- 		warranty
-    purchaseDate
-    supplier
+      type
+      state
+      specification {
+        id
+        brand
+        model
+        technicalDetails
+      }
     }
   }
   `;

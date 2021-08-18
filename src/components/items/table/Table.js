@@ -11,6 +11,9 @@ import TableRow from "@material-ui/core/TableRow";
 import EnhancedTableHead from "./components/EnhancedTableHead";
 import styled from "styled-components";
 import MoreSpecification from "./components/MoreSpecification";
+import useBoolean from "../../../hooks/useBoolean";
+import InfoItem from "../info-item/InfoItem";
+import Text from "../../common/Text";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -61,6 +64,10 @@ export default function EnhancedTable({ items }) {
   const [orderBy, setOrderBy] = useState("type");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [currentItem, setCurrentItem] = useState({});
+  const { isOpen, handleOpen, handleClose } = useBoolean({
+    initialState: false,
+  });
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -69,7 +76,8 @@ export default function EnhancedTable({ items }) {
   };
 
   const handleClick = (item) => {
-    console.log(item);
+    handleOpen();
+    setCurrentItem(item);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -85,73 +93,97 @@ export default function EnhancedTable({ items }) {
     rowsPerPage - Math.min(rowsPerPage, items.length - page * rowsPerPage);
 
   return (
-    <Container>
-      <TableContainer>
-        <Table
-          className={classes.table}
-          aria-labelledby="tableTitle"
-          size="medium"
-          aria-label="enhanced table"
-        >
-          <EnhancedTableHead
-            classes={classes}
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={handleRequestSort}
-          />
-          <TableBody>
-            {stableSort(items, getComparator(order, orderBy))
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((item, index) => {
-                const labelId = `enhanced-table-checkbox-${index}`;
+    <>
+      <Container>
+        <TableContainer>
+          <Table
+            className={classes.table}
+            aria-labelledby="tableTitle"
+            size="medium"
+            aria-label="enhanced table"
+          >
+            <EnhancedTableHead
+              classes={classes}
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={handleRequestSort}
+            />
+            <TableBody>
+              {stableSort(items, getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((item, index) => {
+                  const labelId = `enhanced-table-checkbox-${index}`;
 
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(item)}
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={item.name}
-                  >
-                    <TableCell component="th" id={labelId} scope="row">
-                      {item.type}
-                    </TableCell>
-                    <TableCell>{item.simtlixCode}</TableCell>
-                    <TableCell>{item.state}</TableCell>
-                    <TableCell>{item.assignedCollaborator || "-"}</TableCell>
-                    <TableCell>{item.requestedDate}</TableCell>
-                    <TableCell align="right">
-                      {item.serialNumber === "empty" ? "-" : item.serialNumber}
-                    </TableCell>
-                    <TableCell>
-                      <MoreSpecification specification={item.specification} />
-                    </TableCell>
-                    <TableCell>{item.warranty}</TableCell>
-                    <TableCell>{item.purchaseDate}</TableCell>
-                    <TableCell>
-                      {item.supplier === "empty" ? "-" : item.supplier}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={items.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={item.name}
+                    >
+                      <TableCell component="th" id={labelId} scope="row">
+                        {item.type}
+                      </TableCell>
+                      <TableCell>{item.simtlixCode}</TableCell>
+                      <TableCell>
+                        <CustomText
+                          fontWeight="700"
+                          onClick={() => handleClick(item)}
+                        >
+                          {item.state}
+                        </CustomText>
+                      </TableCell>
+                      <TableCell>
+                        {item?.assignedCollaborator?.id || "-"}
+                      </TableCell>
+                      <TableCell>{item.requestedDate}</TableCell>
+                      <TableCell align="right">
+                        {item.serialNumber === "empty"
+                          ? "-"
+                          : item.serialNumber}
+                      </TableCell>
+                      <TableCell>
+                        {item.specification ? (
+                          <MoreSpecification
+                            specification={item.specification}
+                          />
+                        ) : (
+                          "-"
+                        )}
+                      </TableCell>
+                      <TableCell>{item.warranty}</TableCell>
+                      <TableCell>{item.purchaseDate}</TableCell>
+                      <TableCell>
+                        {item.supplier === "empty" ? "-" : item.supplier}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 53 * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={items.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Container>
+      {/** Modal for item info */}
+      <InfoItem
+        isOpen={isOpen}
+        handleClose={handleClose}
+        currentItem={currentItem}
       />
-    </Container>
+    </>
   );
 }
 
@@ -159,4 +191,13 @@ const Container = styled.div`
   border-radius: 4px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
     rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+`;
+
+const CustomText = styled(Text)`
+  text-decoration: underline;
+  cursor: pointer;
+
+  :hover {
+    text-decoration: none;
+  }
 `;

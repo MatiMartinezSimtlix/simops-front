@@ -37,7 +37,6 @@ const ItemForm = () => {
   }, []);
 
   function handleSubmit(values) {
-    console.log(values);
     dispatch(
       createItem({
         query: createItemQuery({
