@@ -8,10 +8,10 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 
-import useBoolean from '../../../hooks/useBoolean';
+import useBoolean from "../../../hooks/useBoolean";
 
 import EnhancedTableHead from "./components/EnhancedTableHead";
-import Info from '../info/Info';
+import Info from "../info/Info";
 import styled from "styled-components";
 
 function descendingComparator(a, b, orderBy) {
@@ -58,7 +58,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EnhancedTable({ collaborators }) {
-  const { isOpen, handleOpen, handleClose } = useBoolean({initialState: false});
+  const { isOpen, handleOpen, handleClose } = useBoolean({
+    initialState: false,
+  });
   const classes = useStyles();
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("calories");
@@ -66,7 +68,6 @@ export default function EnhancedTable({ collaborators }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [collaborator, setCollaborator] = useState(null);
-
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -100,7 +101,8 @@ export default function EnhancedTable({ collaborators }) {
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, collaborators.length - page * rowsPerPage);
+    rowsPerPage -
+    Math.min(rowsPerPage, collaborators.length - page * rowsPerPage);
 
   return (
     <>
@@ -126,7 +128,6 @@ export default function EnhancedTable({ collaborators }) {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((collaborator, index) => {
                   const isCollaboratorSelected = isSelected(collaborator.name);
-
                   return (
                     <TableRow
                       hover
@@ -137,10 +138,10 @@ export default function EnhancedTable({ collaborators }) {
                       key={collaborator.name}
                       selected={isCollaboratorSelected}
                     >
+                      <TableCell>{collaborator.collaboratorSimOpsId}</TableCell>
                       <TableCell>
-                        {collaborator.collaboratorSimOpsId}
+                        {collaborator.active ? "TRUE" : "FALSE"}
                       </TableCell>
-                      <TableCell>{collaborator.active ? 'TRUE' : 'FALSE'}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -162,11 +163,14 @@ export default function EnhancedTable({ collaborators }) {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Container>
-      {
-        collaborator?.collaboratorItems || collaborator?.collaboratorAccessories ? 
-          <Info isOpen={isOpen} handleClose={handleClose} collaborator={collaborator} />
-          : null
-      }
+      {collaborator?.collaboratorItems ||
+      collaborator?.collaboratorAccessories ? (
+        <Info
+          isOpen={isOpen}
+          handleClose={handleClose}
+          collaborator={collaborator}
+        />
+      ) : null}
     </>
   );
 }
