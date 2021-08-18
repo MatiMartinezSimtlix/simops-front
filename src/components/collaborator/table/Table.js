@@ -17,7 +17,10 @@ import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
+import useBoolean from '../../../hooks/useBoolean';
+
 import EnhancedTableHead from "./components/EnhancedTableHead";
+import Info from '../info/Info';
 import styled from "styled-components";
 
 function descendingComparator(a, b, orderBy) {
@@ -135,12 +138,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EnhancedTable({ collaborators }) {
+  const { isOpen, handleOpen, handleClose } = useBoolean({initialState: false});
   const classes = useStyles();
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("calories");
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [collaborator, setCollaborator] = useState(null);
+
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -157,24 +163,9 @@ export default function EnhancedTable({ collaborators }) {
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
+  const handleClick = (collaborator) => {
+    setCollaborator(collaborator);
+    handleOpen();
   };
 
   const handleChangePage = (event, newPage) => {
@@ -192,77 +183,80 @@ export default function EnhancedTable({ collaborators }) {
     rowsPerPage - Math.min(rowsPerPage, collaborators.length - page * rowsPerPage);
 
   return (
-    <Container>
-      <EnhancedTableToolbar numSelected={selected.length} />
-      <TableContainer>
-        <Table
-          className={classes.table}
-          aria-labelledby="tableTitle"
-          size="medium"
-          aria-label="enhanced table"
-        >
-          <EnhancedTableHead
-            classes={classes}
-            numSelected={selected.length}
-            order={order}
-            orderBy={orderBy}
-            onSelectAllClick={handleSelectAllClick}
-            onRequestSort={handleRequestSort}
-            rowCount={collaborators.length}
-          />
-          <TableBody>
-            {stableSort(collaborators, getComparator(order, orderBy))
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((collaborator, index) => {
-                const isCollaboratorSelected = isSelected(collaborator.name);
-                const labelId = `enhanced-table-checkbox-${index}`;
+    <>
+      <Container>
+        <EnhancedTableToolbar numSelected={selected.length} />
+        <TableContainer>
+          <Table
+            className={classes.table}
+            aria-labelledby="tableTitle"
+            size="medium"
+            aria-label="enhanced table"
+          >
+            <EnhancedTableHead
+              classes={classes}
+              numSelected={selected.length}
+              order={order}
+              orderBy={orderBy}
+              onSelectAllClick={handleSelectAllClick}
+              onRequestSort={handleRequestSort}
+              rowCount={collaborators.length}
+            />
+            <TableBody>
+              {stableSort(collaborators, getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((collaborator, index) => {
+                  const isCollaboratorSelected = isSelected(collaborator.name);
+                  const labelId = `enhanced-table-checkbox-${index}`;
 
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, collaborator.name)}
-                    role="checkbox"
-                    aria-checked={isCollaboratorSelected}
-                    tabIndex={-1}
-                    key={collaborator.name}
-                    selected={isCollaboratorSelected}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={isCollaboratorSelected}
-                        inputProps={{ "aria-labelledby": labelId }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
+                  return (
+                    <TableRow
+                      hover
+                      onClick={() => handleClick(collaborator)}
+                      role="checkbox"
+                      aria-checked={isCollaboratorSelected}
+                      tabIndex={-1}
+                      key={collaborator.name}
+                      selected={isCollaboratorSelected}
                     >
-                      {collaborator.collaboratorSimOpsId}
-                    </TableCell>
-                    <TableCell align="left">{collaborator.active ? 'TRUE' : 'FALSE'}</TableCell>
-                  </TableRow>
-                );
-              })}
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={collaborators.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Container>
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={isCollaboratorSelected}
+                          inputProps={{ "aria-labelledby": labelId }}
+                        />
+                      </TableCell>
+                      <TableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
+                      >
+                        {collaborator.collaboratorSimOpsId}
+                      </TableCell>
+                      <TableCell align="left">{collaborator.active ? 'TRUE' : 'FALSE'}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 53 * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={collaborators.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Container>
+      <Info isOpen={isOpen} handleClose={handleClose} collaborator={collaborator} />
+    </>
   );
 }
 

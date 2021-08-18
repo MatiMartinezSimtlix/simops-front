@@ -5,7 +5,7 @@ import Table from "../components/collaborator/table/Table";
 import Filters from "../components/collaborator/filters/Filters";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCollaborators } from "../redux/action/collaborator.action";
-import { getCollaborators } from "../querys/collaborator.query";
+import { getFullCollaborators } from "../querys/collaborator.query";
 import FetchLoading from "../components/common/FetchLoading";
 
 const Index = () => {
@@ -14,7 +14,7 @@ const Index = () => {
 
   useEffect(() => {
     if (!collaborators) {
-      dispatch(fetchCollaborators({ query: getCollaborators }));
+      dispatch(fetchCollaborators({ query: getFullCollaborators }));
     }
   }, []);
 
