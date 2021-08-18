@@ -1,7 +1,9 @@
 import styled from "styled-components";
-import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
 
-function CollaboratorSelect(props) {
+import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
+import { itemEnums } from "../../../../utils/enums";
+
+function TypeSelect(props) {
   return (
     <FormControlCustom>
       <InputLabel id="demo-simple-select-label">{props.label}</InputLabel>
@@ -12,14 +14,16 @@ function CollaboratorSelect(props) {
         onChange={props.onChange}
         name={props.name}
       >
-        <MenuItem value={true}>TRUE</MenuItem>
-        <MenuItem value={false}>FALSE</MenuItem>
+        <MenuItem value="">ALL</MenuItem>
+        {itemEnums.map((item) => (
+          <MenuItem value={item.id}>{item.id}</MenuItem>
+        ))}
       </Select>
     </FormControlCustom>
   );
 }
 
-export default CollaboratorSelect;
+export default TypeSelect;
 
 const FormControlCustom = styled(FormControl)`
   width: 125px;

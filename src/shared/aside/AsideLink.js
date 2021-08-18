@@ -17,6 +17,7 @@ export default AsideLink;
 
 const Container = styled(Link)`
   display: flex;
+  justify-content: ${(p) => (p.$isOpen ? "flex-start" : "center")};
   align-items: center;
   column-gap: 1rem;
   padding: 0.5rem;

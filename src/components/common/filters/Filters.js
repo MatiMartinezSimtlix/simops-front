@@ -1,50 +1,22 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import SelectField from "./components/SelectField";
+import TypeSelect from "./components/TypeSelect";
 import { Divider } from "@material-ui/core";
 import SearchWithIcon from "../../common/SearchWithIcon";
 
-function Filters() {
-  const [selectValues, setSelectValues] = useState({
-    type: "",
-    model: "",
-    brand: "",
-  });
-  const [search, setSearch] = useState("");
+import NewItem from "../new-item/NewItem";
 
-  function handleChange(e) {
-    setSelectValues({
-      ...selectValues,
-      [e.target.name]: e.target.value,
-    });
-  }
-
-  function handleChangeSearch(e) {
-    setSearch(e.target.value);
-  }
-
+function Filters({ type, handleChangeType, search, handleChangeSearch }) {
   return (
     <Container>
+      <NewItem />
       <SearchWithIcon value={search} onChange={handleChangeSearch} />
-      <SelectField
-        label="Model"
-        value={selectValues.model}
-        onChange={handleChange}
-        name="model"
-      />
       <Divider orientation="vertical" flexItem />
-      <SelectField
-        label="Brand"
-        value={selectValues.brand}
-        onChange={handleChange}
-        name="brand"
-      />
-      <Divider orientation="vertical" flexItem />
-      <SelectField
+      <TypeSelect
         label="Type"
-        value={selectValues.type}
-        onChange={handleChange}
+        value={type}
+        onChange={handleChangeType}
         name="type"
       />
     </Container>
