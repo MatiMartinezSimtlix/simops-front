@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeState } from "../../../redux/action/item.action";
 import { customItemQuery } from "../../../querys/itemState.query";
 
-const ToAvailable = ({ currentItem, handleClose }) => {
+const ToAvailable = ({ currentItem, mutation, handleClose }) => {
   const dispatch = useDispatch();
   const { loadingChange } = useSelector((state) => state.itemReducer);
 
@@ -21,17 +21,28 @@ const ToAvailable = ({ currentItem, handleClose }) => {
   };
 
   function handleSubmit(values) {
-    dispatch(
-      changeState({
-        query: customItemQuery({
-          mutation: "COMING_to_AVAILABLE_item",
-          id: currentItem.id,
-          simtlixCode: values.simtlixCode,
-          serialNumber: values.serialNumber,
-          purchaseDate: values.purchaseDate,
-        }),
-      })
-    );
+    if (mutation === "COMING_to_AVAILABLE_item") {
+      dispatch(
+        changeState({
+          query: customItemQuery({
+            mutation: mutation,
+            id: currentItem.id,
+            simtlixCode: values.simtlixCode,
+            serialNumber: values.serialNumber,
+            purchaseDate: values.purchaseDate,
+          }),
+        })
+      );
+    } else {
+      dispatch(
+        changeState({
+          query: customItemQuery({
+            mutation: mutation,
+            id: currentItem.id,
+          }),
+        })
+      );
+    }
     handleClose();
   }
 
@@ -39,30 +50,36 @@ const ToAvailable = ({ currentItem, handleClose }) => {
     <Formik
       initialValues={initialValues}
       onSubmit={handleSubmit}
-      validationSchema={toAvailableSchema}
+      validationSchema={
+        mutation === "COMING_to_AVAILABLE_item" && toAvailableSchema
+      }
     >
       {() => (
         <Container>
-          <DefaultTextField
-            name="simtlixCode"
-            type="text"
-            label="simTLiXCode"
-          />
-          <DefaultTextField
-            name="serialNumber"
-            type="text"
-            label="SerialNumber"
-          />
-          <DefaultTextField
-            name="purchaseDate"
-            type="text"
-            label="PurchaseDate (YYYY/MM/DD)"
-          />
+          {mutation === "COMING_to_AVAILABLE_item" && (
+            <>
+              <DefaultTextField
+                name="simtlixCode"
+                type="text"
+                label="simTLiXCode"
+              />
+              <DefaultTextField
+                name="serialNumber"
+                type="text"
+                label="SerialNumber"
+              />
+              <DefaultTextField
+                name="purchaseDate"
+                type="text"
+                label="PurchaseDate (YYYY/MM/DD)"
+              />
+            </>
+          )}
           {loadingChange ? (
             <WidthLoading />
           ) : (
             <Button variant="contained" color="primary" type="submit">
-              Assign Item
+              To Available Item
             </Button>
           )}
         </Container>

@@ -143,7 +143,13 @@ export default function EnhancedTable({ items }) {
                           : item.serialNumber}
                       </TableCell>
                       <TableCell>
-                        <MoreSpecification specification={item.specification} />
+                        {item.specification ? (
+                          <MoreSpecification
+                            specification={item.specification}
+                          />
+                        ) : (
+                          "-"
+                        )}
                       </TableCell>
                       <TableCell>{item.warranty}</TableCell>
                       <TableCell>{item.purchaseDate}</TableCell>

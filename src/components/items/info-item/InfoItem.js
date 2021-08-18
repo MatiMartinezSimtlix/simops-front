@@ -3,11 +3,12 @@ import styled from "styled-components";
 
 import { Modal } from "@material-ui/core";
 import ToAvailable from "./ToAvailable";
-import CustomAccordion from "./CustomAccordion";
+import CustomAccordion from "./components/CustomAccordion";
 import Text from "../../common/Text";
 import ToBroken from "./ToBroken";
 import ToBooked from "./ToBooked";
 import ToAssign from "./ToAssign";
+import ToNotAssign from "./ToNotAssign";
 
 const InfoItem = ({ isOpen, handleClose, currentItem }) => {
   return (
@@ -18,11 +19,17 @@ const InfoItem = ({ isOpen, handleClose, currentItem }) => {
             Change state
           </Text>
         </TextWrapper>
+        {/** COMING */}
         {currentItem.state === "COMING" && (
           <CustomAccordion title="To Available Item">
-            <ToAvailable currentItem={currentItem} handleClose={handleClose} />
+            <ToAvailable
+              currentItem={currentItem}
+              mutation="COMING_to_AVAILABLE_item"
+              handleClose={handleClose}
+            />
           </CustomAccordion>
         )}
+        {/** AVAILABLE */}
         {currentItem.state === "AVAILABLE" && (
           <>
             <CustomAccordion title="To Broken Item">
@@ -36,7 +43,68 @@ const InfoItem = ({ isOpen, handleClose, currentItem }) => {
               <ToBooked currentItem={currentItem} handleClose={handleClose} />
             </CustomAccordion>
             <CustomAccordion title="To Assigned Item">
-              <ToAssign currentItem={currentItem} handleClose={handleClose} />
+              <ToAssign
+                currentItem={currentItem}
+                mutation="AVAILABLE_to_ASSIGNED_item"
+                handleClose={handleClose}
+              />
+            </CustomAccordion>
+            <CustomAccordion title="To Not Assign Item">
+              <ToNotAssign
+                currentItem={currentItem}
+                mutation="AVAILABLE_to_NOT_ASSIGNABLE_item"
+                handleClose={handleClose}
+              />
+            </CustomAccordion>
+          </>
+        )}
+        {/** ASSIGNED */}
+        {currentItem.state === "ASSIGNED" && (
+          <>
+            <CustomAccordion title="To Broken Item">
+              <ToBroken
+                currentItem={currentItem}
+                mutation="ASSIGNED_to_BROKEN_item"
+                handleClose={handleClose}
+              />
+            </CustomAccordion>
+            <CustomAccordion title="To Available Item">
+              <ToAvailable
+                currentItem={currentItem}
+                mutation="ASSIGNED_to_AVAILABLE_item"
+                handleClose={handleClose}
+              />
+            </CustomAccordion>
+          </>
+        )}
+        {/** BOOKED */}
+        {currentItem.state === "BOOKED" && (
+          <>
+            <CustomAccordion title="To Assigned Item">
+              <ToAssign
+                currentItem={currentItem}
+                mutation="BOOKED_to_ASSIGNED_item"
+                handleClose={handleClose}
+              />
+            </CustomAccordion>
+          </>
+        )}
+        {/** BROKEN */}
+        {currentItem.state === "BROKEN" && (
+          <>
+            <CustomAccordion title="To Available Item">
+              <ToAvailable
+                currentItem={currentItem}
+                mutation="BROKEN_to_AVAILABLE_item"
+                handleClose={handleClose}
+              />
+            </CustomAccordion>
+            <CustomAccordion title="To Not Assign Item">
+              <ToNotAssign
+                currentItem={currentItem}
+                mutation="BROKEN_to_NOT_ASSIGNABLE_item"
+                handleClose={handleClose}
+              />
             </CustomAccordion>
           </>
         )}

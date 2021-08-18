@@ -13,7 +13,7 @@ import { fetchCollaborators } from "../../../redux/action/collaborator.action";
 import { getCollaborators } from "../../../querys/collaborator.query";
 import AutoCompleteCollaborators from "./components/AutoCompleteCollaborators";
 
-const ToAssign = ({ currentItem, handleClose }) => {
+const ToAssign = ({ currentItem, handleClose, mutation }) => {
   const dispatch = useDispatch();
   const { loadingChange } = useSelector((state) => state.itemReducer);
   const { collaborators, loading } = useSelector(
@@ -35,14 +35,14 @@ const ToAssign = ({ currentItem, handleClose }) => {
     dispatch(
       changeState({
         query: customItemQuery({
-          mutation: "AVAILABLE_to_ASSIGNED_item",
+          mutation: mutation,
           id: currentItem.id,
           assignedCollaboratorId: values.assignedCollaboratorId.id,
           requestedDate: values.requestedDate,
         }),
       })
     );
-    console.log(values);
+    handleClose();
   }
 
   if (!collaborators || loading) {
