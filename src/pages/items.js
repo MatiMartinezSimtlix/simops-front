@@ -30,11 +30,31 @@ const Items = () => {
   }
 
   function filterItems() {
-    if (type === "") {
-      return items;
+    let filteredItems = items;
+    if (type !== "") {
+       filteredItems = filteredItems.filter((item) => item.type === type);
+    };
+    if (search) {
+      filteredItems = filteredItems.filter(item => JSON.stringify(item).includes(search));
     }
-    return items.filter((item) => item.type === type);
+    return filteredItems;
   }
+
+  // function filterItems() {
+  //   let filteredCollaborators = collaborators;
+  //   if (active) {
+  //     filteredCollaborators = filteredCollaborators.filter((collaborator) => collaborator.active === active)
+  //   }
+  //   if (search) {
+  //     filteredCollaborators = filteredCollaborators.filter(collaborator => {
+  //       const substr = collaborator.collaboratorSimOpsId.substring(0,search.length).toLowerCase();
+  //       if (substr === search.toLowerCase()) return true;
+  //       return false;
+  //     });
+  //   }
+
+  //   return filteredCollaborators;
+  // }
 
   if (!items || loading) {
     return <FetchLoading />;
