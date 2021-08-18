@@ -10,7 +10,7 @@ export default function Analytic({ type, count, total }) {
           <Text color="primary" fontWeight="bold">
           {type}
           </Text>
-          <Text color="black" fontWeight="regular">
+          <Text fontWeight="regular">
           {`${count}/${total}`}
           </Text>
         </CardContent>

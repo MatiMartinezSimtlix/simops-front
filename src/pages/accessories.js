@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAccessory } from "../redux/action/accessory.action";
@@ -6,17 +6,19 @@ import { getAccessories } from "../querys/accessory.query";
 import FetchLoading from "../components/common/FetchLoading";
 
 import Table from "../components/accessories/table/Table";
-import Filters from "../components/common/filters/Filters";
+//import Filters from "../components/common/filters/Filters";
 import Analytic from "../components/common/analytics/Analytic";
 
 
 const Accessories = () => {
 
-  /* const accessories = [
+  const accessoriesArray = [
     { id: 1, type: 'Mouse', quantity: 1, collaborator: 'Snow', model: 'Jon', brand: 'Jon', technicaldetails: 'Jon' },
-  ]; 
-  
-  {
+  ];
+
+  /* 
+
+  /*  {
   "data": {
     "accessories": [
       {
@@ -43,31 +45,39 @@ const Accessories = () => {
   },
   "extensions": {
     "runTime": 46
-  }
-}*/
+  } */
 
-    const dispatch = useDispatch();
-    const { accessories, loading } = useSelector((state) => state.accessoryReducer);
-  
-    useEffect(() => {
-      if (!accessories) {
-        dispatch(fetchAccessory({ query: getAccessories }));
-      }
-    }, []);
-  
-    if (!accessories || loading) {
-      return <FetchLoading />;
-    } 
+  const dispatch = useDispatch();
+  const { accessories, loading } = useSelector((state) => state.accessoryReducer);
+
+  const [type, setType] = useState("");
+
+  useEffect(() => {
+    if (!accessories) {
+      dispatch(fetchAccessory({ query: getAccessories }));
+    }
+  }, []);
+
+  function filterAccesories() {
+    if (type === "") {
+      return accessories;
+    }
+    return accessories.filter((accessory) => accessory.type === type);
+  }
+
+
+  if (!accessories || loading) {
+    return <FetchLoading />;
+  }
 
   return (
     <Container>
-      <Filters />
       <AnalyticsContainer>
         <Analytic type={"Accessories available"} count={9} total={100} />
         <Analytic type={"Accessories assigned"} count={9} total={100} />
       </AnalyticsContainer>
 
-      {/* <Table accessories={accessories} /> */}
+      <Table accessories={filterAccesories()} />
     </Container>
   );
 
