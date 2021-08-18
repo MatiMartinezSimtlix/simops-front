@@ -25,8 +25,11 @@ export const fetchAccessory = ({ query }) => {
   return async (dispatch) => {
     dispatch(getAccessoryStart());
     await request("http://localhost:3000/inventory/graphql?", query)
-      .then((response) => dispatch(getAccessorySuccess(response.Accessory)))
+      .then((response) => {
+        console.log(response);
+        dispatch(getAccessorySuccess(response))})
       .catch((error) => {
+        console.log(error);
         dispatch(getAccessoryFail(error));
       });
   };

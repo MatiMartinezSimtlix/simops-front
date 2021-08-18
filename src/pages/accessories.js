@@ -7,15 +7,46 @@ import FetchLoading from "../components/common/FetchLoading";
 
 import Table from "../components/accessories/table/Table";
 import Filters from "../components/common/filters/Filters";
+import Analytic from "../components/common/analytics/Analytic";
 
 
 const Accessories = () => {
 
-  const accessories = [
+  /* const accessories = [
     { id: 1, type: 'Mouse', quantity: 1, collaborator: 'Snow', model: 'Jon', brand: 'Jon', technicaldetails: 'Jon' },
-  ];
+  ]; 
+  
+  {
+  "data": {
+    "accessories": [
+      {
+        "id": "611d13c1aba39842fc790d0e",
+        "quantity": 1,
+        "specification": {
+          "brand": "Lenovo",
+          "model": "Mouse-Model",
+          "technicalDetails": "Detail"
+        },
+        "collaborators": []
+      },
+      {
+        "id": "611d17caaba39842fc790d13",
+        "quantity": 1,
+        "specification": {
+          "brand": "Lenovo",
+          "model": "Mouse-Model",
+          "technicalDetails": "Detail"
+        },
+        "collaborators": []
+      }
+    ]
+  },
+  "extensions": {
+    "runTime": 46
+  }
+}*/
 
-  /*   const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const { accessories, loading } = useSelector((state) => state.accessoryReducer);
   
     useEffect(() => {
@@ -27,38 +58,19 @@ const Accessories = () => {
     if (!accessories || loading) {
       return <FetchLoading />;
     } 
-  
-    }
-
-    const displayData = ({ accessories }) => {
-    const rows = [];
-    const key = 0;
-
-    if (accessories) {
-      accessories.map((accessory) => {
-        rows.push({
-          id: key++,
-          type: accessory.type,
-          quantity: accessory.quantity,
-          collaborator: accessory.collaborator,
-          model: accessory.model,
-          brand: accessory.brand,
-          technicaldetails: accessory.technicaldetails
-        })
-      })
-    }
-
-    return rows;
-  }
-   
-  */
 
   return (
     <Container>
       <Filters />
-      <Table accessories={accessories} />
+      <AnalyticsContainer>
+        <Analytic type={"Accessories available"} count={9} total={100} />
+        <Analytic type={"Accessories assigned"} count={9} total={100} />
+      </AnalyticsContainer>
+
+      {/* <Table accessories={accessories} /> */}
     </Container>
   );
+
 };
 
 export default Accessories;
@@ -66,6 +78,13 @@ export default Accessories;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  row-gap: 1.5rem;
+`;
+
+const AnalyticsContainer = styled.div`
+  display: flex;
+  justify: flex-end;
+  flex-direction: row;
   row-gap: 1.5rem;
 `;
 

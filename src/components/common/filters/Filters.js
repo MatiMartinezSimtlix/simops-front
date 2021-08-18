@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import TypeSelect from "./components/TypeSelect";
 import { Divider } from "@material-ui/core";
 import SearchWithIcon from "../../common/SearchWithIcon";
-
-import NewItem from "../new-item/NewItem";
+import NewItem from "../../items/new-item/NewItem";
+import TypeSelect from "../../items/filters/components/TypeSelect";
 
 function Filters({ type, handleChangeType, search, handleChangeSearch }) {
   return (

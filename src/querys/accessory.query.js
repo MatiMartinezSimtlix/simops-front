@@ -1,26 +1,45 @@
 import { gql } from "graphql-request";
 
 export const getAccessories = gql`
-  query {
-    accessory {
+  query{
+    accessories(isDeleted: {operator: EQ, value: false}) {
       id
-      type
-      simtlixCode
-      state
-      assignedCollaborator {
-        id
-      }
-      requestedDate
-      serialNumber
+      quantity
       specification {
-        id
         brand
         model
         technicalDetails
       }
-      warranty
-      purchaseDate
-      supplier
+      collaborators {
+        id
+      }
     }
   }
 `;
+
+export function createAccesoryQuery({ specification, type, quantity }) {
+  const query = gql`
+  mutation {
+    addaccessory(
+      input: {
+        type: ${type},
+        quantity: ${quantity},
+        specification: {
+          id: "${specification}"
+        },
+      }
+    )
+    {
+      type,
+      quantity,
+      specification{
+        id,
+        brand,
+        model
+      }
+    }
+  }
+  `;
+
+  return query;
+}
