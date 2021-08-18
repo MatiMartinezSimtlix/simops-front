@@ -37,7 +37,6 @@ export const itemReducer = (state = initialState, action) => {
         error: null,
       };
     case types.CREATE_ITEM_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
         loading: false,

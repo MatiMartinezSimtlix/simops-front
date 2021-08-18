@@ -2,7 +2,7 @@ import { gql } from "graphql-request";
 
 export const getAccessories = gql`
   query {
-    accessories(isDeleted: {operator: EQ, value: false}) {
+    accessories(isDeleted: { operator: EQ, value: false }) {
       id
       quantity
       type
@@ -23,25 +23,39 @@ export const getAccessories = gql`
   }
 `;
 
-export function createAccesoryQuery({ specification, type, quantity }) {
+export function createAccessoryQuery({ quantity, type, specification }) {
   const query = gql`
   mutation {
     addaccessory(
       input: {
-        type: ${type},
-        quantity: ${quantity},
-        specification: {
-          id: "${specification}"
-        },
+        quantity: ${quantity}
+        type: ${type}
+        ${
+          specification
+            ? `specification: {
+          id: "${specification}
+        }`
+            : ""
+        }
       }
     )
     {
-      type,
-      quantity,
+      id
+      type
+      quantity
       specification{
-        id,
-        brand,
+        id
+        brand
         model
+        technicalDetails
+      }
+      collaborators {
+        id
+        collaborator {
+          id
+          active
+          collaboratorSimOpsId
+        }
       }
     }
   }

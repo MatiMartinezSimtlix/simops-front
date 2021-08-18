@@ -20,3 +20,9 @@ export const toAssignedSchema = yup.object().shape({
   assignedCollaboratorId: yup.object().required("Mandatory"),
   requestedDate: yup.string().required("Mandatory"),
 });
+
+export const accessorySchema = yup.object().shape({
+  quantity: yup.number().required("Mandatory"),
+  type: yup.object().required("Mandatory"),
+  specification: yup.object().required("Mandatory"),
+});

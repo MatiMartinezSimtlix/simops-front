@@ -71,7 +71,7 @@ const ToAvailable = ({ currentItem, mutation, handleClose }) => {
               <DefaultTextField
                 name="purchaseDate"
                 type="text"
-                label="PurchaseDate (YYYY/MM/DD)"
+                label="PurchaseDate (YYYY-MM-DD)"
               />
             </>
           )}

@@ -10,24 +10,27 @@ import { getSpecificationQuery } from "../../../../querys/specification.query";
 import WidthLoading from "../../../common/WidthLoading";
 import { Button } from "@material-ui/core";
 import DefaultAutoComplete from "../../../common/DefaultAutoComplete";
-import { itemEnums } from "../../../../utils/enums";
-import { createItem } from "../../../../redux/action/item.action";
-import { createItemQuery } from "../../../../querys/item.query";
+import { accessoryEnums } from "../../../../utils/enums";
+import { createAccessory } from "../../../../redux/action/accessory.action";
+import { createAccessoryQuery } from "../../../../querys/accessory.query";
+import DefaultTextField from "../../../common/DefaultTextField";
+import { accessorySchema } from "../../../../utils/validations";
 
-const ItemForm = () => {
+const AccessoryForm = ({ handleClose }) => {
   const dispatch = useDispatch();
   const { specifications, loading } = useSelector(
     (state) => state.specificationReducer
   );
 
   const initialValues = {
+    quantity: 0,
+    type: "",
     specification: {
       brand: "",
       id: "",
       model: "",
       technicalDetails: "",
     },
-    type: "",
   };
 
   useEffect(() => {
@@ -38,13 +41,15 @@ const ItemForm = () => {
 
   function handleSubmit(values) {
     dispatch(
-      createItem({
-        query: createItemQuery({
+      createAccessory({
+        query: createAccessoryQuery({
+          quantity: values.quantity,
           specification: values.specification.id,
           type: values.type.id,
         }),
       })
     );
+    handleClose();
   }
 
   if (!specifications || loading) {
@@ -52,7 +57,11 @@ const ItemForm = () => {
   }
 
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      validationSchema={accessorySchema}
+    >
       {({ values, setFieldValue }) => (
         <Container>
           <RowWrapper>
@@ -66,18 +75,22 @@ const ItemForm = () => {
             />
             <NewSpecification />
           </RowWrapper>
-          <DefaultAutoComplete
-            name="type"
-            label="Type"
-            value={values.type}
-            setFieldValue={setFieldValue}
-            options={itemEnums}
-          />
+          <RowWrapper>
+            <DefaultAutoComplete
+              name="type"
+              label="Type"
+              value={values.type}
+              setFieldValue={setFieldValue}
+              options={accessoryEnums}
+              fullWidth
+            />
+            <DefaultTextField name="quantity" type="number" label="Quantity" />
+          </RowWrapper>
           {loading ? (
             <WidthLoading />
           ) : (
             <Button variant="contained" color="primary" type="submit">
-              Create Item
+              Create Accessory
             </Button>
           )}
         </Container>
@@ -86,7 +99,7 @@ const ItemForm = () => {
   );
 };
 
-export default ItemForm;
+export default AccessoryForm;
 
 const Container = styled(Form)`
   display: flex;

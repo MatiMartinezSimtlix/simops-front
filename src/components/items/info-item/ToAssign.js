@@ -67,7 +67,7 @@ const ToAssign = ({ currentItem, handleClose, mutation }) => {
           <DefaultTextField
             name="requestedDate"
             type="text"
-            label="requestedDate (YYYY/MM/DD)"
+            label="requestedDate (YYYY-MM-DD)"
           />
           {loadingChange ? (
             <WidthLoading />
